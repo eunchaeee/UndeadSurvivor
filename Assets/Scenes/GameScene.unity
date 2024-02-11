@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 2120491334}
   - component: {fileID: 2120491335}
   - component: {fileID: 2120491336}
+  - component: {fileID: 2120491337}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -577,6 +578,8 @@ MonoBehaviour:
   inputVec: {x: 0, y: 0}
   speed: 3
   rigid: {fileID: 2120491333}
+  spriter: {fileID: 2120491331}
+  anim: {fileID: 2120491337}
 --- !u!114 &2120491336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,3 +610,23 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &2120491337
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120491329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f78bc077f7d04991bee58dc2ab52f6a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

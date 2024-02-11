@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 inputVec;
     [SerializeField] private float speed = 3;
     [SerializeField] private Rigidbody2D rigid;
+    [SerializeField] private SpriteRenderer spriter;
+    [SerializeField] private Animator anim;
 
     private void FixedUpdate()
     {
@@ -25,5 +27,16 @@ public class Player : MonoBehaviour
     private void OnMove(InputValue value)
     {
         inputVec = value.Get<Vector2>();
+    }
+
+    private void LateUpdate()
+    {
+        anim.SetFloat("Speed", inputVec.magnitude);
+
+
+        if (inputVec.x != 0)
+        {
+            spriter.flipX = inputVec.x < 0; 
+        }
     }
 }
