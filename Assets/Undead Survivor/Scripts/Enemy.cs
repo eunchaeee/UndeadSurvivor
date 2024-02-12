@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,5 +55,23 @@ public class Enemy : MonoBehaviour
         speed = data.speed;
         maxHealth = data.health;
         curHealth = data.health;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            curHealth -= collision.GetComponent<Bullet>().damage;
+        }
+
+        if (curHealth < 0)
+        {
+            Dead();
+        }
+    }
+
+    private void Dead()
+    {
+        gameObject.SetActive(false);
     }
 }
