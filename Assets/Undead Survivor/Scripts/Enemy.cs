@@ -5,11 +5,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float curHealth;
+    public float maxHealth;
+    public RuntimeAnimatorController[] animatorControllers;
     public Rigidbody2D target;
 
-    bool isLive = true;
+    bool isLive;
 
     Rigidbody2D rigid;
+    Animator animator;
     SpriteRenderer spriter;
 
     private Vector2 dir;
@@ -17,12 +21,15 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        curHealth = maxHealth;
     }
 
     private void FixedUpdate()
@@ -39,5 +46,13 @@ public class Enemy : MonoBehaviour
     {
         if (!isLive) return;
         spriter.flipX = dir.x < 0;
+    }
+
+    public void Init(SpawnData data)
+    {
+        animator.runtimeAnimatorController = animatorControllers[data.spriteType];
+        speed = data.speed;
+        maxHealth = data.health;
+        curHealth = data.health;
     }
 }
