@@ -6,11 +6,17 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
+    public Scanner scanner;
 
     [SerializeField] private float speed = 3;
     [SerializeField] private Rigidbody2D rigid;
     [SerializeField] private SpriteRenderer spriter;
     [SerializeField] private Animator anim;
+
+    private void Awake()
+    {
+        scanner = GetComponent<Scanner>();
+    }
 
     private void FixedUpdate()
     {
