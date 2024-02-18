@@ -14,28 +14,36 @@ public class Enemy : MonoBehaviour
     bool isLive;
 
     Rigidbody2D rigid;
+    Collider2D coll;
     Animator animator;
     SpriteRenderer spriter;
+    WaitForFixedUpdate wait;
 
     private Vector2 dir;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+        wait = new WaitForFixedUpdate();
     }
 
     private void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
+        coll.enabled = true;
+        rigid.simulated = true;
+        spriter.sortingOrder = 2;
+        animator.SetBool("Dead", false);
         curHealth = maxHealth;
     }
 
     private void FixedUpdate()
     {
-        if (!isLive) return;
+        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) return;
 
         dir = target.position - rigid.position;
         Vector2 nextVec = dir.normalized * speed * Time.fixedDeltaTime;
@@ -62,15 +70,32 @@ public class Enemy : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             curHealth -= collision.GetComponent<Bullet>().damage;
+            StartCoroutine(KnockBack());
         }
 
         if (curHealth < 0)
         {
-            Dead();
+            isLive = false;
+            coll.enabled = false;
+            rigid.simulated = false;
+            spriter.sortingOrder = 1;
+            animator.SetBool("Dead", true);
+        }
+        else
+        {
+            animator.SetTrigger("Hit");
         }
     }
 
-    private void Dead()
+    IEnumerator KnockBack()
+    {
+        yield return wait;  // 하나의 물리 프레임을 딜레이
+        Vector3 playerpos = GameManager.instance.player.transform.position;
+        Vector3 dir = transform.position - playerpos;
+        rigid.AddForce(dir.normalized * 3, ForceMode2D.Impulse);
+    }
+
+    public void Dead()
     {
         gameObject.SetActive(false);
     }
